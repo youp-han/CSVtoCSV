@@ -16,6 +16,8 @@ namespace exceltool
         public FormReceiveExcel()
         {
             InitializeComponent();
+
+            //Do componeants of form1 (UI) settings on start
             InitializeFormComponents();
         }
 

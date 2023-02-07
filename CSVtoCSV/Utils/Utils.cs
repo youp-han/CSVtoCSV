@@ -11,33 +11,11 @@ namespace exceltool.Utils
         public static (DateTime dt, DateTime cstTime) ReturnDateTime(string beforeString)
         {
 
-            string[] splitbeforeString = beforeString.Split(' ');
-
-            //date
-            string dateStr = splitbeforeString[0].Remove(0, 1);
-            string[] dateStrSplit = dateStr.Split('-');
-
-            //time
-            string timeStr = splitbeforeString[1];
-            string[] timeStrSplitToMilleSecond = timeStr.Split('.');
-            string timeStrNoMilissecond = timeStrSplitToMilleSecond[0];
-            string timeStrMilli = timeStrSplitToMilleSecond[1].Remove(3, 1);
-            string[] timeStrSplitToHHMMSS = timeStrNoMilissecond.Split(':');
-
-
-            DateTime dt = new DateTime(
-                Convert.ToInt16(dateStrSplit[0]),
-                Convert.ToInt16(dateStrSplit[1]),
-                Convert.ToInt16(dateStrSplit[2]),
-                Convert.ToInt16(timeStrSplitToHHMMSS[0]),
-                Convert.ToInt16(timeStrSplitToHHMMSS[1]),
-                Convert.ToInt16(timeStrSplitToHHMMSS[2]),
-                Convert.ToInt16(timeStrMilli)
-            );
-
-            DateTime cstTime = dt.AddHours(9);
-
-            return (dt, cstTime);
+            // "\"2022-12-26 04:04:54.000\""
+            beforeString = beforeString.Replace('\"', ' ').Trim();
+            DateTime UTC =  Convert.ToDateTime(beforeString);
+            DateTime koreaTime = UTC.AddHours(9);
+            return (UTC, koreaTime);
         }
 
         public static string[] ReturnSplitString(string csvLine)

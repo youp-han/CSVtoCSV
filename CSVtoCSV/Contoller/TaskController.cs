@@ -14,41 +14,59 @@ namespace exceltool.Contoller
 {
     public class TaskController
     {
+
         public void GetDownloadsInfoFile(string readFromFileName, string tempWriteToFileName, string fullFilePath, string writeToFileName)
         {
             //1. Send CSV Data
-            var data = FileInformation.GetFullPathNames(readFromFileName, fullFilePath);
+            var data =  FileInformation.GetFullPathNames(readFromFileName, fullFilePath);
 
+             
             //////2. Write Returned Data to CSV File
-            string[]dataArray = data.Split('\n');
+            string[]dataArray =  data.Split('\n');
             bool fileWriteResult = WriteStringToFile(tempWriteToFileName, dataArray);
             
             //3. Build the 2 Collections using reading 2 files
             List<FileInformation> downloadedFileInfo = File.ReadLines(readFromFileName)
                 .Skip(1)
-                .Select(v => FileInformation.csvLineToCollection(v))
+                .Select(v => FileInformation.CsvLineToCollection(v))
                 .ToList();
 
             List<DownloadFilePathInfo> filePathInfo = File.ReadLines(tempWriteToFileName)
                 .Skip(1)
-                .Select(x => DownloadFilePathInfo.csvLineToCollection(x))
+                .Select(x => DownloadFilePathInfo.CsvLineToCollection(x))
                 .ToList();
 
             //4. Combine 2 collection into side by side
             var newList = downloadedFileInfo.Join(filePathInfo, s => downloadedFileInfo.IndexOf(s), i => filePathInfo.IndexOf(i), (s, i) => new { sv = s, iv = i }).ToList();
-            
+
             //5. Print it to the CVS file
-            writeToCSVFile(writeToFileName, newList);
+            if(  WriteToCsvFile(writeToFileName, newList)) MessageBox.Show(@"Finished");
         }
 
-        public void writeToCSVFile<T>(string writeToFileName, IEnumerable<T>newList)
+        //public void 
+
+        public bool WriteToCsvFile<T>(string writeToFileName, IEnumerable<T>newList)
         {
-            var writer = new StreamWriter(writeToFileName, true, Encoding.UTF8);
-            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+            bool result = false;
+            try
             {
-                csv.WriteRecords(newList);
+                var writer = new StreamWriter(writeToFileName, true, Encoding.UTF8);
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.WriteRecords(newList);
+                }
+
+                result = true;
             }
-            MessageBox.Show("Finished");
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                result = false;
+                throw;
+            }
+
+            return result;
+            
         }
 
 
@@ -58,18 +76,30 @@ namespace exceltool.Contoller
             //3. Build the 2 Collections using reading 2 files
             List<DownloadFolderInfo> downloadFolderInfo = File.ReadLines(readFromFileName)
                 .Skip(1)
-                .Select(v => DownloadFolderInfo.csvLineToCollection(v))
+                .Select(v => DownloadFolderInfo.CsvLineToCollection(v))
                 .ToList();
 
 
             //5. Print it to the CVS file
-            writeToCSVFile(writeToFileName, downloadFolderInfo);
+            if (WriteToCsvFile(writeToFileName, downloadFolderInfo)) MessageBox.Show(@"Finished");
+
         }
 
         private bool WriteStringToFile(string tempWriteToFileName, string[] dataArray)
         {
-            File.WriteAllLines(tempWriteToFileName, dataArray);
-            return true;
+            bool result = false;
+            try
+            {
+                File.WriteAllLines(tempWriteToFileName, dataArray);
+                result = true;
+            }
+            catch (Exception e)
+            {
+                result = false;
+                Console.WriteLine(e);
+                throw;
+            }
+            return result;
         }
     }
 }

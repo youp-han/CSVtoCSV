@@ -8,19 +8,19 @@ namespace  Model.DTO
     {
 
         [Name("요청시간(UTC)")]
-        public string requestTimeUTC { get; set; }
+        public string RequestTimeUtc { get; set; }
         [Name("요청시간(한국)")]
 
-        public string requestDateKorea { get; set; }
+        public string RequestDateKorea { get; set; }
         [Name("로그 분류")]
 
-        public string logType { get; set; }
+        public string LogType { get; set; }
         [Name("요청 URL")]
 
-        public string requestURL { get; set; }
+        public string RequestUrl { get; set; }
         [Name("유저 아이디")]
 
-        public string userID { get; set; }
+        public string UserId { get; set; }
 
         public static string GetFullPathNames(string filePath, string fileName)
         {
@@ -30,20 +30,20 @@ namespace  Model.DTO
         }
 
         
-        public static FileInformation csvLineToCollection(string csvLine)
+        public static FileInformation CsvLineToCollection(string csvLine)
         {
 
             FileInformation fileInfo = new FileInformation();
 
             string[] csvValues = Utils.ReturnSplitString(csvLine);
 
-            (DateTime dt, DateTime cstTime) multiTime = Utils.ReturnDateTime(csvValues[2]);
+            (DateTime utcTime, DateTime koreaTime) multiTime = Utils.ReturnDateTime(csvValues[2]);
 
-            fileInfo.requestTimeUTC = multiTime.dt.ToString("yyyy/MM/dd HH:mm:ss");
-            fileInfo.requestDateKorea = multiTime.cstTime.ToString("yyyy/MM/dd HH:mm:ss");
-            fileInfo.logType = csvValues[7];
-            fileInfo.requestURL = csvValues[9];
-            fileInfo.userID = csvValues[10];
+            fileInfo.RequestTimeUtc = multiTime.utcTime.ToString("yyyy/MM/dd HH:mm:ss");
+            fileInfo.RequestDateKorea = multiTime.koreaTime.ToString("yyyy/MM/dd HH:mm:ss");
+            fileInfo.LogType = csvValues[7].Replace('\"', ' ').Trim();
+            fileInfo.RequestUrl = csvValues[9].Replace('\"', ' ').Trim();
+            fileInfo.UserId = csvValues[10].Replace('\"', ' ').Trim();
 
             return fileInfo;
             
@@ -54,11 +54,11 @@ namespace  Model.DTO
     public class DownloadFilePathInfo
     {
         [Name("ID")]
-        public string fileID { get; set; }
+        public string FileId { get; set; }
         [Name("다운로드 파일명")]
-        public string fullFilePath { get; set; }
+        public string FullFilePath { get; set; }
 
-        public static DownloadFilePathInfo csvLineToCollection(string csvLine)
+        public static DownloadFilePathInfo CsvLineToCollection(string csvLine)
         {
             DownloadFilePathInfo fileInfo = new DownloadFilePathInfo();
 
@@ -66,14 +66,14 @@ namespace  Model.DTO
 
             if (csvLine.Length > 0)
             {
-                fileInfo.fileID = csvValues[0];
+                fileInfo.FileId = csvValues[0];
                 if (csvValues.Length > 2)
                 {
-                    fileInfo.fullFilePath = csvValues[1] + csvValues[2];
+                    fileInfo.FullFilePath = csvValues[1] + csvValues[2];
                 }
                 else
                 {
-                    fileInfo.fullFilePath = csvValues[1];
+                    fileInfo.FullFilePath = csvValues[1];
                 }
                 
             }
@@ -88,37 +88,37 @@ namespace  Model.DTO
 
 
         [Name("요청시간(UTC)")]
-        public string requestTimeUTC { get; set; }
+        public string RequestTimeUtc { get; set; }
         [Name("요청시간(한국)")]
 
-        public string requestDateKorea { get; set; }
+        public string RequestDateKorea { get; set; }
         [Name("로그 분류")]
 
-        public string logType { get; set; }
+        public string LogType { get; set; }
         [Name("클라이언트 IP")]
-        public string clientIP { get; set; }
+        public string ClientIp { get; set; }
         [Name("요청 URL")]
 
-        public string requestURL { get; set; }
+        public string RequestUrl { get; set; }
         [Name("유저 아이디")]
-        public string userID { get; set; }
+        public string UserId { get; set; }
 
-        public static DownloadFolderInfo csvLineToCollection(string csvLine)
+        public static DownloadFolderInfo CsvLineToCollection(string csvLine)
         {
 
             DownloadFolderInfo folderInfo = new DownloadFolderInfo();
 
             string[] csvValues = Utils.ReturnSplitString(csvLine);
 
-            (DateTime dt, DateTime cstTime) multiTime = Utils.ReturnDateTime(csvValues[2]);
+            (DateTime utcTime, DateTime koreaTime) multiTime = Utils.ReturnDateTime(csvValues[2]);
 
 
-            folderInfo.requestTimeUTC = multiTime.dt.ToString("yyyy/MM/dd HH:mm:ss");
-            folderInfo.requestDateKorea = multiTime.cstTime.ToString("yyyy/MM/dd HH:mm:ss");
-            folderInfo.logType = csvValues[7];
-            folderInfo.clientIP = csvValues[8];
-            folderInfo.requestURL = csvValues[9];
-            folderInfo.userID = csvValues[10];
+            folderInfo.RequestTimeUtc = multiTime.utcTime.ToString("yyyy/MM/dd HH:mm:ss");
+            folderInfo.RequestDateKorea = multiTime.koreaTime.ToString("yyyy/MM/dd HH:mm:ss");
+            folderInfo.LogType = csvValues[7].Replace('\"', ' ').Trim();
+            folderInfo.ClientIp = csvValues[8].Replace('\"', ' ').Trim();
+            folderInfo.RequestUrl = csvValues[9].Replace('\"', ' ').Trim();
+            folderInfo.UserId = csvValues[10].Replace('\"', ' ').Trim();
 
             return folderInfo;
 
