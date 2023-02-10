@@ -24,9 +24,7 @@ namespace  Model.DTO
 
         public static string GetFullPathNames(string filePath, string fileName)
         {
-            string uri = "http://api.temp.com/csv-file";
-
-            return Utils.RestClient(uri, filePath, fileName);
+            return Utils.RestClient(filePath, fileName);
         }
 
         

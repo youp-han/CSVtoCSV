@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -22,16 +23,17 @@ namespace exceltool.Utils
         {
             return Regex.Split(csvLine, "[,]{1}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
         }
+        
 
-
-
-
-        public static string RestClient(string uri, string filePath, string fileName)
+        public static string RestClient(string filePath, string fileName)
         {
             WebResponse response = null;
+
+           // string uri = "";
+
             try
             {
-                string sWebAddress = uri;
+                string sWebAddress = ConfigurationSettings.AppSettings["api-url"];
 
                 string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
                 byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
@@ -40,7 +42,7 @@ namespace exceltool.Utils
                 wr.Method = "POST";
                 wr.KeepAlive = true;
 
-                wr.Headers.Add("api-key", "987098797098");
+                wr.Headers.Add("api-key", ConfigurationSettings.AppSettings["api-key"]);
 
                 Stream stream = wr.GetRequestStream();
                 string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
