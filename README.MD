@@ -1,7 +1,15 @@
+AWS 사용에 대한 리포트 요청이 잦아짐에 따라 AWS 에서 csv 의 RAW 데이터를 토대로
+날짜 변경 및 api 호출을 통해 데이터를 가지고 와서, 
+사용자가 요청한 리포트 형태로의 csv 파일을 만드는 프로그램 입니다.
+
+기본적으로 athena 에서 돌린 쿼리를 csv 로 떨구고 시작하며, 
+해당 툴은 개인적인 목적으로 만들어져, 다른사람들에게는 사용된 코드 정도 보는 것 외엔 별 필요 없는 프로그램이다.
+
 This application reads a csv file containing raw data
 and reproduces a monthly required report.
 
-- it is a personal usage so it is useless for others..
+- it is built for my personal usage so it will not work for the others..
+- but, what it does might matter.
 
 - what it does..
 
