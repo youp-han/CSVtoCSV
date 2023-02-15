@@ -11,7 +11,7 @@ and reproduces a monthly required report.
 - it is built for my personal usage so it will not work for the others..
 - but, what it does might matter.
 
-- what it does..
+- what it does.. (아래 1번부터 6번까지 파일을 열어 따로 excel/csv 작업을 해야 해서 그냥 프로그램으로 진행함)
 
 1. it gets the csv file from the disk
 2. it sends over to api and receives text formatted result.
