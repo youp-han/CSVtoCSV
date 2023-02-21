@@ -29,8 +29,6 @@ namespace exceltool.Utils
         {
             WebResponse response = null;
 
-           // string uri = "";
-
             try
             {
                 string sWebAddress = ConfigurationSettings.AppSettings["api-url"];
