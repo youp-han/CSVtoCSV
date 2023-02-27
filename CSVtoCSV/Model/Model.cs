@@ -53,6 +53,10 @@ namespace  Model.DTO
     {
         [Name("ID")]
         public string FileId { get; set; }
+
+        public string FileName { get; set; }
+        public string PathName { get; set; }
+
         [Name("다운로드 파일명")]
         public string FullFilePath { get; set; }
 
@@ -64,14 +68,19 @@ namespace  Model.DTO
 
             if (csvLine.Length > 0)
             {
-                fileInfo.FileId = csvValues[0];
+                fileInfo.FileId = csvValues[0].Replace('\"', ' ').Trim();
                 if (csvValues.Length > 2)
                 {
-                    fileInfo.FullFilePath = csvValues[1] + csvValues[2];
+                    fileInfo.PathName = csvValues[1].Replace('\"', ' ').Trim();
+                    fileInfo.FileName = csvValues[2].Replace('\"', ' ').Trim();
+                    fileInfo.FullFilePath = csvValues[1].Replace('\"', ' ').Trim() + csvValues[2].Replace('\"', ' ').Trim();
+                    
                 }
                 else
                 {
-                    fileInfo.FullFilePath = csvValues[1];
+                    fileInfo.PathName = csvValues[1].Replace('\"', ' ').Trim();
+                    fileInfo.FileName = csvValues[1].Replace('\"', ' ').Trim();
+                    fileInfo.FullFilePath = csvValues[1].Replace('\"', ' ').Trim();
                 }
                 
             }

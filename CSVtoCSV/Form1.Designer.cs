@@ -119,7 +119,7 @@
             this.Controls.Add(this.fromDatePkr);
             this.Controls.Add(this.btn_Start_Converting);
             this.Name = "FormReceiveExcel";
-            this.Text = "csv_To_Report";
+            this.Text = "csv_To_Report 1_0_0_3";
             this.ResumeLayout(false);
             this.PerformLayout();
 
